@@ -1,0 +1,9 @@
+#!/usr/bin/ruby
+
+require_relative '../lib/publication_creator'
+
+resources = Resources.new(file='/Users/peel/wrk/escenic/vagrant-esc/app/publications/shared-war/target/shared-war.war')
+publication = Publication.new('nwt')
+escenic = Escenic.new(Server.new(port=9090,host='localhost'))
+creator = Publication_Creator.new(escenic)
+creator.new_publication(resources, publication)
