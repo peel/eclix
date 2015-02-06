@@ -1,9 +1,35 @@
 #!/usr/bin/ruby
+#/ Usage: creator [options]...
+#/ The app is used to remotely define publications on Escenic instances
 
 require_relative '../lib/publication_creator'
+require 'optparse'
 
-resources = Resources.new(file='/Users/peel/wrk/escenic/vagrant-esc/app/publications/shared-war/target/shared-war.war')
-publication = Publication.new('nwt')
-escenic = Escenic.new(Server.new(port=9090,host='localhost'))
+$stderr.sync = true
+require 'optparse'
+
+# default options
+host  = 'localhost'
+port = 8080
+list    = ["x", "y", "z"]
+war = 'shared-war.war'
+publication_name = 'demo'
+
+# parse arguments
+file = __FILE__
+ARGV.options do |opts|
+  opts.on("-w", "--war=val", String)   { |val| war = val }
+  opts.on("-p", "--publication=val", String)  { |val| publication_name = val }
+  opts.on("-sh", "--server_host=val", String)  { |val| host = val }
+  opts.on("-sp", "--server_port=val", Integer)  { |val| port = val }
+  opts.on_tail("-h", "--help")         { exec "grep ^#/<'#{file}'|cut -c4-" }
+  opts.parse!
+end
+
+# execute
+resources = Resources.new(file=war)
+publication = Publication.new(publication_name)
+server = Server.new(port, host)
+escenic = Escenic.new(server)
 creator = Publication_Creator.new(escenic)
 creator.new_publication(resources, publication)
