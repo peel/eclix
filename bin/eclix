@@ -1,0 +1,63 @@
+#!/usr/bin/ruby
+
+require 'commander/import'
+require_relative '../lib/publication_creator'
+require_relative '../lib/sync'
+
+program :name, 'ECLIx'
+program :version, '0.1.0'
+program :description, 'Escenic CLI mode'
+
+command :mkpub do |c|
+    c.syntax = 'eclix mkpub'
+    c.description = 'Creates a new publication'
+    c.option '--host STRING', String, 'Hostname on which Escenic server is running'
+    c.option '--port PORT_NUMBER', Integer, 'Port on which Escenic server is running'
+    c.option '--war STRING', String, 'Name of the WAR containing content definitions'
+    c.option '--publication STRING', String, 'Name of the publication to create'
+    c.action do |args, options|
+      options.default \
+        :host  => 'localhost',
+        :port  => 8080,
+        :war   => 'shared-war.war',
+        :publication_name => 'demo'
+
+        resources = Resources.new(file=options.war)
+        publication = Publication.new(options.publication_name)
+        server = Server.new(options.port, options.host)
+        escenic = Escenic.new(options.server)
+        creator = Publication_Creator.new(options.escenic)
+        creator.new_publication(options.resources, options.publication)
+    end
+end
+
+command :static do |c|
+    c.syntax = 'eclix static'
+    c.description = 'Performs operations on static content'
+    c.option '--local_dir STRING', String, 'Manually sets local dir to publication'
+    c.option '--host STRING', String, 'Hostname on which Escenic server is listening'
+    c.option '--port PORT_NUM', Integer, 'Port on which *SSH* server is listening'
+    c.option '--user STRING', String, 'Username for *SSH* user to remote server'
+    c.option '--pass STRING', String, 'Password for *SSH* connection'
+    c.option '--publications STRING STRING', Array, 'List of publications to sync'
+    c.option '--remote_name STRING', String, 'Name of the remote Escenic instance to sync with'
+    c.action do |args, options|
+      options.default \
+        :name => 'engine1',
+        :host => 'localhost',
+        :port => 2222,
+        :user => 'escenic',
+        :pass => '',
+        :local_dir => "#{Dir.pwd}/app",
+        :publication_names => ['nwt','eposten','sla','mariestadstidningen']
+
+        credentials = Credentials.new(options.user, options.pass)
+
+        local = Local.new(options.local_dir)
+        remote = Remote.new(options.name, options.host, options.port, credentials)
+        env = Environment.new(remote, local, options.publication_names)
+
+        uploader = Uploader.new
+        uploader.upload(env)
+    end
+end

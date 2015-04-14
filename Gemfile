@@ -1,6 +1,8 @@
 source "https://rubygems.org"
 
-gem 'rest-client'
 gem 'rake'
+gem 'rest-client'
+gem 'commander'
+gem 'net-scp'
 gem 'rspec'
 gem 'rspec-mocks'
