@@ -48,7 +48,7 @@ command :static do |c|
         :user => 'escenic',
         :pass => '',
         :local_dir => "#{Dir.pwd}/app",
-        :publication_names => ['nwt','eposten','sla','mariestadstidningen']
+        :publication_names => ['demo']
 
         credentials = Eclix::Credentials.new(options.user, options.pass)
 
