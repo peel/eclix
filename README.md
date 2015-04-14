@@ -1,26 +1,21 @@
-# Eclix
+ECLIx
+===========
 
-TODO: Write a gem description
+## Escenic CLI not mouseclix
+
+The gem is a CLI interface for Escenic CMS. For now it provides basic functionalities like adding publications, bacis syncing static content.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'eclix'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Execute following command:
 
     $ gem install eclix
 
 ## Usage
 
-TODO: Write usage instructions here
+To see detailed documentation execute:
+
+    $ eclix -h
 
 ## Contributing
 
