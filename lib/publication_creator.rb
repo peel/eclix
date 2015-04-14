@@ -143,5 +143,6 @@ require 'rest-client'
       @publisher=publisher
       @password=password
       @context=context
+      @context||=name
     end
   end

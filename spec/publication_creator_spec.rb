@@ -29,9 +29,4 @@ describe Escenic do
       expect(Escenic.new.publish_url.absolute).to eq('http://localhost:8080/escenic-admin/do/publication/insert')
     end
   end
-  describe '#publish_url' do
-    it 'returns absolute publication url' do
-      expect(Escenic.new.publication_url(Publication.new('demo')).absolute).to eq('http://localhost:8080/demo/')
-    end
-  end
 end
