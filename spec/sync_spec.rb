@@ -1,11 +1,12 @@
-require 'sync'
+require 'spec_helper'
+require 'eclix/sync'
 
 #setup
 pub_name = "test"
-pub = Publication.new(pub_name)
+pub = Eclix::Publication.new(pub_name)
 path = '/home/escenic/pub/'
 
-RSpec.describe Publication do
+describe Publication do
   describe '#template' do
     it "creates a path to templates" do
         expect(pub.template(path)).to eq "#{path}template"
@@ -19,7 +20,7 @@ RSpec.describe Publication do
 end
 
 
-RSpec.describe Remote do
+describe Remote do
   server_name = "test"
   host = "host"
   port = 22
@@ -47,7 +48,7 @@ RSpec.describe Remote do
   end
 end
 
-RSpec.describe Local do
+describe Local do
   local = Local.new(path)
   describe '#publication_dir' do
     it 'creates a publication absolute dir on remote server' do

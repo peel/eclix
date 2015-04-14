@@ -1,5 +1,6 @@
 require 'rest-client'
 
+module Eclix
   class Publication_Creator
     attr_reader :escenic
 
@@ -146,3 +147,4 @@ require 'rest-client'
       @context||=name
     end
   end
+end
