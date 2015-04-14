@@ -137,14 +137,4 @@ module Eclix
       @file=file
     end
   end
-  class Publication
-    attr_reader :name, :publisher, :password, :context
-    def initialize(name, publisher='Escenic', password='admin', context=name)
-      @name=name
-      @publisher=publisher
-      @password=password
-      @context=context
-      @context||=name
-    end
-  end
 end

@@ -1,28 +1,15 @@
 require 'net/scp'
 
 module Eclix
-    class Credentials
+  class Credentials
     attr_reader :user, :password
     def initialize(user, password)
         @user = user
         @password = password
     end
-    end
+  end
 
-    class Publication
-    attr_reader :name
-    def initialize(name)
-        @name = name
-    end
-    def template(path)
-        path+"template"
-    end
-    def static(path)
-        path+"static"
-    end
-    end
-
-    class Remote
+  class Remote
     attr_reader :name, :host, :port, :credentials
     def initialize(name, host, port, credentials)
         @name = name
@@ -42,9 +29,9 @@ module Eclix
     def publication_dir(publication_name)
         "/opt/tomcat-#{name}/webapps-#{publication_name}/#{publication_name}/"
     end
-    end
+  end
 
-    class Local
+  class Local
     attr_reader :project_home
     def initialize(project_home)
         @project_home = project_home
@@ -52,18 +39,18 @@ module Eclix
     def publication_dir(publication_name)
         "#{project_home}/publications/#{publication_name}/src/main/webapp/"
     end
-    end
+  end
 
-    class Environment
+  class Environment
     attr_reader :publications, :local, :remote
     def initialize(remote, local, publication_names)
         @publications = publication_names.map{|n| Publication.new(n)}
         @local = local
         @remote = remote
     end
-    end
+  end
 
-    class Uploader
+  class Uploader
     def upload_template(environment)
         environment.publications.each do |pub|
         p 'Syncing templates...'
@@ -88,5 +75,5 @@ module Eclix
         upload_template(environment)
         upload_static(environment)
     end
-    end
+  end
 end
