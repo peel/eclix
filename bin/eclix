@@ -1,8 +1,7 @@
 #!/usr/bin/ruby
 
 require 'commander/import'
-require_relative '../lib/publication_creator'
-require_relative '../lib/sync'
+require 'Eclix'
 
 program :name, 'ECLIx'
 program :version, '0.1.0'
@@ -51,13 +50,13 @@ command :static do |c|
         :local_dir => "#{Dir.pwd}/app",
         :publication_names => ['nwt','eposten','sla','mariestadstidningen']
 
-        credentials = Credentials.new(options.user, options.pass)
+        credentials = Eclix::Credentials.new(options.user, options.pass)
 
-        local = Local.new(options.local_dir)
-        remote = Remote.new(options.name, options.host, options.port, credentials)
-        env = Environment.new(remote, local, options.publication_names)
+        local = Eclix::Local.new(options.local_dir)
+        remote = Eclix::Remote.new(options.name, options.host, options.port, credentials)
+        env = Eclix::Environment.new(remote, local, options.publication_names)
 
-        uploader = Uploader.new
+        uploader = Eclix::Uploader.new
         uploader.upload(env)
     end
 end
