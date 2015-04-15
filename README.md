@@ -16,6 +16,7 @@ Execute following command:
 To see detailed documentation execute:
 
     $ eclix -h
+    $ eclix [COMMAND] -h
 
 ## Contributing
 
