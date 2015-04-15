@@ -48,13 +48,13 @@ command :static do |c|
         :user => 'escenic',
         :pass => '',
         :local_dir => "#{Dir.pwd}/app",
-        :publication_names => ['demo']
+        :publications => ['demo']
 
         credentials = Eclix::Credentials.new(options.user, options.pass)
 
         local = Eclix::Local.new(options.local_dir)
         remote = Eclix::Remote.new(options.name, options.host, options.port, credentials)
-        env = Eclix::Environment.new(remote, local, options.publication_names)
+        env = Eclix::Environment.new(remote, local, options.publications)
 
         uploader = Eclix::Uploader.new
         uploader.upload(env)
