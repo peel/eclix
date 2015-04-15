@@ -1,6 +1,9 @@
 ECLIx
 ===========
 
+[![Gem Version](https://badge.fury.io/rb/eclix.svg)](http://badge.fury.io/rb/eclix)
+[![Circle CI](https://circleci.com/gh/peel/eclix.svg?style=svg)](https://circleci.com/gh/peel/eclix)
+
 ## Escenic CLI not mouseclix
 
 The gem is a CLI interface for Escenic CMS. For now it provides basic functionalities like adding publications, bacis syncing static content.
