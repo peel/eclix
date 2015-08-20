@@ -14,7 +14,7 @@ describe Eclix::Remote do
 
   describe '#publication_dir' do
     it 'creates a publication absolute dir on remote server' do
-      expect(remote.publication_dir(pub_name)).to eq "/opt/tomcat-#{server_name}/webapps-#{pub_name}/#{pub_name}/"
+      expect(remote.publication_dir(pub_name)).to eq "/opt/tomcat-#{server_name}/webapps/#{pub_name}/"
     end
   end
 

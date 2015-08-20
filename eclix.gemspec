@@ -32,4 +32,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "rest-client"
   spec.add_runtime_dependency "commander"
   spec.add_runtime_dependency "net-scp"
+  spec.add_runtime_dependency "listen"
 end

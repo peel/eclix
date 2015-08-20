@@ -33,7 +33,7 @@ module Eclix
                           :resourceFile => File.new(resources.file, 'rb'),
                           :multipart => true
                       },
-                      {:cookies => cookies},
+                      {:cookies => cookies}
       ) { |response, request, result|
         case response.code
           when 200

@@ -27,7 +27,7 @@ module Eclix
     end
 
     def publication_dir(publication_name)
-        "/opt/tomcat-#{name}/webapps-#{publication_name}/#{publication_name}/"
+        "/opt/tomcat-#{name}/webapps/#{publication_name}/"
     end
   end
 
@@ -64,9 +64,7 @@ module Eclix
     def upload_static(environment)
         environment.publications.each do |pub|
         p 'Syncing statics...'
-        p pub.static(environment.local.publication_dir(pub.name)) => pub.static(environment.remote.publication_dir(pub.name))
         Net::SCP.upload!(environment.remote.host, environment.remote.user, pub.static(environment.local.publication_dir(pub.name)), environment.remote.publication_dir(pub.name), :ssh => {:port => environment.remote.port}, :recursive => true)
-        p pub.static(environment.local.publication_dir("shared-war")) => pub.static(environment.remote.publication_dir(pub.name))
         Net::SCP.upload!(environment.remote.host, environment.remote.user, pub.static(environment.local.publication_dir("shared-war")), environment.remote.publication_dir(pub.name), :ssh => {:port => environment.remote.port}, :recursive => true)
         p 'Statics synced.'
         end

@@ -1,10 +1,10 @@
 #!/usr/bin/ruby
 
 require 'commander/import'
-require 'Eclix'
+require 'eclix'
 
 program :name, 'ECLIx'
-program :version, '0.1.0'
+program :version, '0.2.0'
 program :description, 'Escenic CLI mode'
 
 command :mkpub do |c|
@@ -59,4 +59,43 @@ command :static do |c|
         uploader = Eclix::Uploader.new
         uploader.upload(env)
     end
+end
+
+
+command :static! do |c|
+  c.syntax = 'eclix static!'
+  c.description = 'Performs continuous syncing operations on static content upon a file change'
+  c.option '--local_dir STRING', String, 'Manually sets local dir to publication'
+  c.option '--host STRING', String, 'Hostname on which Escenic server is listening'
+  c.option '--port PORT_NUM', Integer, 'Port on which *SSH* server is listening'
+  c.option '--user STRING', String, 'Username for *SSH* user to remote server'
+  c.option '--pass STRING', String, 'Password for *SSH* connection'
+  c.option '--publications STRING STRING', Array, 'List of publications to sync'
+  c.option '--remote_name STRING', String, 'Name of the remote Escenic instance to sync with'
+  c.action do |args, options|
+    options.default \
+        :name => 'engine1',
+        :host => 'localhost',
+        :port => 2222,
+        :user => 'escenic',
+        :pass => '',
+        :local_dir => "#{Dir.pwd}/app",
+        :publications => ['demo']
+
+    credentials = Eclix::Credentials.new(options.user, options.pass)
+
+    local = Eclix::Local.new(options.local_dir)
+    remote = Eclix::Remote.new(options.name, options.host, options.port, credentials)
+    env = Eclix::Environment.new(remote, local, options.publications)
+
+    uploader = Eclix::Uploader.new
+    listener = Listen.to(options.local_dir) do |modified, added, removed|
+      puts "modified absolute path: #{modified}"
+      puts "added absolute path: #{added}"
+      puts "removed absolute path: #{removed}"
+      uploader.upload(env)
+    end
+    listener.start # not blocking
+    sleep
+  end
 end
